@@ -1,0 +1,521 @@
+\title{Cloud Computing Team Project} % Title, modify to the name of experiment
+\author{Team 18}% Author, modify to your name
+\date{\today}% Date, Modify to the DATE of EXPERIMENT
+
+\include{command}
+\begin{document}
+
+% \pagenumbering{}
+
+\begin{titlepage}
+    \centering
+    \vspace*{0.5 cm}
+    \includegraphics[scale = 0.75,width=6cm]{CUHK}\\[1.0 cm]   % University Logo
+    \textsc{\Large \textbf{香港中文大学（深圳）}}\\
+    \textsc{\large \textbf{The Chinese University of Hong Kong, Shenzhen}}\\[1.0 cm] 
+    \textsc{\Large DDA3005}\\[0.5 cm] 
+    \textsc{\Large Numerical Methods}\\[0.5 cm]               % Course Name
+    \textsc{\large Instructor: Dr. Andre Milzarek}\\[0.5 cm]
+    \rule{\linewidth}{0.2 mm} \\[0.4 cm]
+    { \huge \bfseries Course Project
+     Singular Value Decomposition}\\
+    \rule{\linewidth}{0.2 mm} \\[1.5 cm]
+    {\LARGE \bfseries Group Name: Macrohard}\\[0.3 cm] 
+    {\Large \bfseries \today}
+ 
+\clearpage
+
+\vspace*{\fill}
+\text{\huge \textbf{Group Members}}
+\begin{center}
+% \begin{table}[h]
+    \Large
+    \begin{tabular}{ |c|c|c|c|} 
+    \hline
+     ID &Name in Chinese & Name in English & Experiments Involved \\ 
+     \hline
+     120090549 &温子雄 &WEN Zixiong &  1, 2, 3, 4, 5, 6 \\
+     \hline
+     120090135 &王子文 & WANG Ziwen & 1, 2, 3, 4, 5, 6 \\ 
+     \hline
+     120090470 &李鹏 & LI Peng & 1, 2, 3, 4, 5, 6 \\
+     \hline
+     120090224 &杨尚霖 & YANG Shanglin & 1, 2, 3, 4, 5, 6 \\
+     \hline
+     120090771 &邱纬纶 & QIU Weilun & 1, 2, 3, 4, 5, 6 \\
+     \hline
+    \end{tabular}
+    \\[1.0 cm]
+    \text{\huge \textbf{Responsibilities and Contributions}}\\
+    \lipsum[1]
+    
+% \end{table}
+\end{center}
+\vspace*{\fill}
+
+\end{titlepage}
+
+\tableofcontents
+\pagebreak
+
+\rmfamily
+\section{TeraSort based on
+HiBench}
+见于前
+
+
+
+\section{PageRank based on
+HiBench}
+见于前
+
+
+\section{Classification using NaiveBayes based on HiBench}
+见于前
+
+\iffalse
+\subsection{Algorithm Description}
+Naive Bayes is a simple multiclass classification algorithm with the assumption of independence between every pair of features. It is called Naive because it assumes that the occurrence of a certain feature is independent of the occurrence of other features. It is called Bayes because it depends on the principle of Bayes' Theorem. \\
+
+Bayes' theorem is used to determine the probability of a hypothesis with prior knowledge. It depends on the conditional probability. The formula for Bayes' theorem is given as: P(A|B)=(P(B|A)P(A))/(P(B)). Where, P(A|B) is Posterior probability: Probability of hypothesis A on the observed event B. P(B|A) is Likelihood probability: Probability of the evidence given that the probability of a hypothesis is true. P(A) is Prior Probability: Probability of hypothesis before observing the evidence. P(B) is Marginal Probability: Probability of Evidence. Then, we have   where, y is class variable and X is a dependent feature vector (of size n). Now, we need to create a classifier model. For this, we find the probability of given set of inputs for all possible values of the class variable y and pick up the output with maximum probability. This can be expressed mathematically as: .\\
+
+Naive Bayes is to classify the maximum probability category.\\
+
+Naive Bayes classification is divided into several stages. First, generate and input training sample set, that is, all data to be classified. Second, calculate the occurrence frequency of each category in the training sample and the conditional probability estimation of each category by each characteristic attribute division, and record the results. Third, use the classifier to classify the items, and output the mapping relationship between the items to be classified and the categories and find the  maximum probability category.
+
+\subsection{Settings and Performance Metrics}
+In the experiment, we will explore execution time in different parameter settings, including data size, mapper number and reducer number.
+When we explore the relationship between execution time and data size, we set mapper number and reducer number to 4. When we explore the relationship between execution time and mapper number and reducer number, we set data size to tiny and set mapper number and reducer number to 1, 2 and 3 respectively, and that is 3×3=9 groups of tests.
+For data generating, we directly run the data generating script:
+
+sh HiBench3/bin/workloads/ml/bayes/prepare/prepare.sh
+
+\subsection{Experiment Data Figures/Tables}
+Run time in different data size with mapper=4 and reducer=4.\\
+\begin{center}
+\begin{tabular}{|l|l|}
+    \hline Input data size & time(s) \\
+    \hline tiny 92410458 & $371.532$ \\
+    \hline small 110928826 & $548.425$ \\
+    \hline large 373700496 & $759.175$ \\
+    \hline huge 1871682834 & $2161.719$ \\
+    \hline gigantic 3743559021 & $6181.525$ \\
+    \hline bigdata 74925678156 & $19091.845$ \\
+    \hline
+\end{tabular}
+\end{center}
+
+Run time in tiny data size with different mapper and reducer number.
+\begin{array}{|l|l|l|l|}
+    \hline \multirow{2}{|l|}{\text { mapper }} & 1 & 2 & 3 \\
+    \hline 1 & 390.118 & 358.760 & 351.511 \\
+    \hline 2 & 370.122 & 353.591 & 356.100 \\
+    \hline 3 & 373.230 & 343.864 & 378.076 \\
+    \hline
+\end{array}
+
+
+\fi
+
+\section{Matrix Multiplication}
+
+\subsection{Matrix Multiplication Algorithm}
+In the two Python code provided in the AIRS Cloud, one mapper and one reducer were implemented to compute the product of two matrices given by such formula:
+
+$$
+C=(AB)_{ij}=\sum^n_{r=1}a_{ir}b_{rj}
+$$
+For the purpose of distributed computing as a core feature of MapReduce, the computation process should be separated into independent procedures so that computation might be done on various nodes. By the formula above, we learn that $c_{ij}$ are independent from each other, so that we can put them into the same key in the map phase. Then, in the reduce stage we can compute $C$ by analyzing different elements. 
+
+\subsection{Matrix Multiplication in MapReduce}
+MapReduce is a programming model developed by Google and made available as an Apache open source project . The model is used for processing large data sets across clusters of computers using a shared filesystem. Specifically, it is implemented in a fashion where user programs only need to ' Map' input data to values stored in a global distributed file system, and ' Reduce' those values to derive the final output . Because of its origins, its terms tend to reflect that origin with code that is written in Java and Python. 
+
+In our experiment, we first uploaded the input files to Hadoop’s HDFS file system:
+
+\lstset{language=command.com}
+\begin{lstlisting}
+    hadoop fs -put /home/team18/matrix/L1.txt /dataspace/team18/matrix/L1.txt
+    hadoop fs -put /home/team18/matrix/R1.txt /dataspace/team18/matrix/R1.txt
+\end{lstlisting}
+
+Then we gave writing and reading access to them:
+
+\begin{lstlisting}
+    hadoop fs -chmod 777 /dataspace/team18/matrix/
+\end{lstlisting}
+
+Once the input files are uploaded and accessible through the HDFS file system, we began using Hadoop’s streaming utility:
+
+\begin{lstlisting}
+    mapred streaming -input /dataspace/team18/matrix \
+	-file /home/team18/matrix/MatMulMapper.py \
+	-mapper "python MatMulMapper.py" \
+	-file /home/team18/matrix/MatMulReducer.py \
+	-reducer "python MatMulReducer.py" \
+	-output /dataspace/team18/matrix-output
+\end{lstlisting}
+
+Which yields the results as follows:
+
+\begin{lstlisting}
+    22/11/28 08:47:35 INFO mapreduce.Job: The url to track the job: http://master2.cuhk.com:8088/proxy/application_1669595859297_0007/
+    22/11/28 08:47:35 INFO mapreduce.Job: Running job: job_1669595859297_0007
+    22/11/28 08:47:42 INFO mapreduce.Job: Job job_1669595859297_0007 running in uber mode : false
+    22/11/28 08:47:42 INFO mapreduce.Job:  map 0% reduce 0%
+    22/11/28 08:47:50 INFO mapreduce.Job:  map 100% reduce 0%
+    22/11/28 08:48:02 INFO mapreduce.Job:  map 100% reduce 100%
+    22/11/28 08:48:36 INFO mapreduce.Job: Job job_1669595859297_0007 completed successfully
+    22/11/28 08:48:36 INFO mapreduce.Job: Counters: 53
+        File System Counters
+            FILE: Number of bytes read=184842966
+            FILE: Number of bytes written=370439648
+            FILE: Number of read operations=0
+            FILE: Number of large read operations=0
+            FILE: Number of write operations=0
+            HDFS: Number of bytes read=23083042
+            HDFS: Number of bytes written=393911
+            HDFS: Number of read operations=11
+            HDFS: Number of large read operations=0
+            HDFS: Number of write operations=2
+        Job Counters
+            Launched map tasks=2
+            Launched reduce tasks=1
+            Data-local map tasks=2
+            Total time spent by all maps in occupied slots (ms)=34152
+            Total time spent by all reduces in occupied slots (ms)=264864
+            Total time spent by all map tasks (ms)=11384
+            Total time spent by all reduce tasks (ms)=44144
+            Total vcore-milliseconds taken by all map tasks=11384
+            Total vcore-milliseconds taken by all reduce tasks=44144
+            Total megabyte-milliseconds taken by all map tasks=34971648
+            Total megabyte-milliseconds taken by all reduce tasks=271220736
+        Map-Reduce Framework
+            Map input records=2048
+            Map output records=16384
+            Map output bytes=184777424
+            Map output materialized bytes=184842972
+            Input split bytes=202
+            Combine input records=0
+            Combine output records=0
+            Reduce input groups=72
+            Reduce shuffle bytes=184842972
+            Reduce input records=16384
+            Reduce output records=16448
+            Spilled Records=32768
+            Shuffled Maps =2
+            Failed Shuffles=0
+            Merged Map outputs=2
+            GC time elapsed (ms)=759
+            CPU time spent (ms)=51570
+            Physical memory (bytes) snapshot=2747916288
+            Virtual memory (bytes) snapshot=16727359488
+            Total committed heap usage (bytes)=2665480192
+            Peak Map Physical memory (bytes)=2122207232
+            Peak Map Virtual memory (bytes)=4675809280
+            Peak Reduce Physical memory (bytes)=1531682816
+            Peak Reduce Virtual memory (bytes)=8512802816
+        Shuffle Errors
+            BAD_ID=0
+            CONNECTION=0
+            IO_ERROR=0
+            WRONG_LENGTH=0
+            WRONG_MAP=0
+            WRONG_REDUCE=0
+        File Input Format Counters
+            Bytes Read=23082840
+        File Output Format Counters
+            Bytes Written=393911
+    22/11/28 08:48:36 INFO streaming.StreamJob: Output directory: /dataspace/team18/matrix-output-8
+\end{lstlisting}
+
+After the MapReduce is successfully done on the remote machine, we then run the clean up command to delete the generated output directory after copying the result to local file system. 
+
+To experiment further, we used the pipe operator to run the mapper and reducer separately locally to make sure the functions work correctly: 
+
+\lstset{language=C++}
+\begin{lstlisting}
+    cat L1.txt, R1.txt | python3 MatMulMapper.py | python3 MatMulReducer.py
+\end{lstlisting}
+
+Now in the application of the MapReduce algorithm to the matrix multiplication problem, we studied the following aspects. 
+
+First is the data or file structure. Matrix data is stored in binary and separated by lines. The former led to the use of the `binascii` module and the latter is to make separation of concerns easier done. 
+
+Second is the computation process. To convert the algorithm into MapReduce, we have to implement three phases: map, shuffle and reduce. 
+
+In the map phase, we marke $a_{ij}$ to `<key, value>` of number I, where `key` = $(i,k), k =1,2,...I$ and `value` = $(a, j, a_{ij}).$ The same goes for the $B$ matrix. The key bridges the computation results, and the value separates numbers from different matrices. 
+
+\lstset{language=Python}
+\begin{lstlisting}
+    if A_B == "L":
+    ib = (int)(lineno)/BLOCKSIZE  # note here the input data starts from 1, the result may differ from that in ppt
+    for jb in range(NB):
+        # the key is the BLOCK Number
+        intermediate_key = '%05d'%(ib * NB + jb)
+        # the value is the {L/R}:{LineNo}:{values of current line}
+        intermediate_value = 'L:%s:%s'%(lineno, row_value)
+        # key and value are seperated by a tab
+        print("%s\t%s" % (intermediate_key, intermediate_value))
+
+if A_B == "R":
+    jb = (int)(lineno)/BLOCKSIZE
+    for ib in range(NB):
+        intermediate_key = '%05d'%(ib * NB + jb)
+        intermediate_value = 'R:%s:%s'%(lineno, row_value)
+        print("%s\t%s"%(intermediate_key, intermediate_value))
+\end{lstlisting}
+
+In the shuffle phase, values with the same key will be packed into a list and passed to reduce. This is automatically done by Hadoop. 
+
+In the reduce phase, we have constructed the key as a form in the Map stage. And we also marked in the Map phase. The next thing to do is to parse the list(value), the elements from are placed in an array alone, and the elements from are placed in another array. Then, we calculate two arrays (each as a vector ), the value that can be calculated.
+
+\lstset{language=Python}
+\begin{lstlisting}
+    blockno = int(input_key)
+    A_B, index, row_value = input_value.split(":")
+
+    if A_B == "L":
+        LeftMatrixBlock.append(row_value.split(" "))
+    if A_B == "R":
+        RightTransposeMatrixBlock.append(row_value.split(" "))
+
+res = [[0 for col in range(BLOCKSZIE)] for row in range(BLOCKSZIE)]
+for i in range(BLOCKSZIE):
+    for j in range(BLOCKSZIE):
+        for k in range(TOTALSIZE):
+            left_val = int(struct.unpack("I", binascii.a2b_hex(LeftMatrixBlock[i][k][2:]))[0])
+            right_val = int(struct.unpack("I", binascii.a2b_hex(RightTransposeMatrixBlock[j][k][2:]))[0])
+            res[i][j] += left_val * right_val
+        print(res[i][j])
+\end{lstlisting}
+
+\section{Image Classification}
+\subsection{The structure of network structure}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=4cm]{微信图片_20221127145950.png}
+    \end{figure}
+In this report, we use CNN to classify the images, where Conv get the feature of the input and Relu to activate and then use pool to up sampling. This CNN is Feedforward neural network.
+
+\subsection{Result with default settings}
+The training loss with default settings are below.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=16cm]{Pasted image 20221127162033.png}
+    \end{figure}
+
+The accuracy with default settings are below.(where X-axis is time)
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=16cm]{Pasted image 20221127161956.png}
+\end{figure}
+
+With the training, the accuracy trend to be 66\%. training time are 3.536mins.
+
+\subsection{Result with different settings}
+
+\textbf{In this section, we use different settings to obtain the task, and the result are below.}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=16cm]{Pasted image 20221127160754.png}
+\end{figure}
+Through the picture, we can see the best accuracy is obtained with batch size = 4e+2 and the learning rate =0.002.\\
+However, with other model, we get a higher acc.\\
+The baseline is 63\% (blue line),using 3 mins.\\
+When we use resnet108, we can get an acc about 81\%(black line), using 30 mins.\\
+With Vit_small, we get an acc about 82\%(purple line), using 36mins.\\
+With swinv2, we get an acc about 98\%(yellow line), using1.21 hrs.\\
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=16cm]{Pasted image 20221127162523.png}
+\end{figure}
+
+\subsection{Recording of system run time information
+}
+
+The CPU usage is below.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=16cm]{Pasted image 20221127163308.png}
+\end{figure}
+
+The GPU usage is below.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=16cm]{Pasted image 20221127163454.png}
+\end{figure}
+
+The baseline is blue line, the resnet108 is black line, Vit_small is purple line and the swinv2 is yellow line.\\
+Through the usage of system, we can see the usage of CNN provided is low at first. Then it increases and waves frequently. It may be the simple structure of the network and the thread of CPU. And the usage of GPU is constant, which is mainly because the parallel computing of GPU is high.
+
+\section{Image to Text}
+\subsection{Experiment Specification}
+The experiment background is a image captioning task on the dataset COCO2014 (Microsoft Common Objects in Context) 
+invloving Computer Vision and Natural Language Processing. Rather than performing large-scale object detection, segmentation, key-point detection, and captioning, which COCO2014
+is commonly adopts, our model only performs the captioning, i.e, for an input image , the model outputs the caption of objects in the image.\\
+Our experiment is to train the model with different hyperparameters and compare the model performance under different metrics. We are tuning the following hyperparameters: 
+$batch\_size$ \\
+Encoder (Convolutional Neural Network): $embed\_size$\\
+Decoder (Recurrent Neural Network): $embed\_size$, $num\_layers$, $hidden\_size$\\
+Optimizer (Adam): $learning\_rate$
+
+\subsection{Interpretation of Perplexity}
+Perplexity is a common performance metric in NLP. Concisely, Perplexity is the exponential of Cross-Entropy. For a given sentence 
+$W = (w_{1}, w_2, \cdots, w_n)$, where $w_{i}$ denotes the $i$th word, its Perplexity is defined as:
+\begin{equation}
+    Perplexity(W) = 2^{H(W)}
+\end{equation}
+where $H(W)$ denotes the Cross-Entropy of $W$, noted that the base is not necessarily be 2, in our experiment, we use $e$.
+Entropy denotes the expectation of information, after simplifying we get
+\begin{equation}
+    H(W) = -\log{P(w_{1}, w_2, \cdots, w_n)}
+\end{equation}
+In the view of bit-length, Perplexity can be interpreted as the number of outputs that are of the same probability (that's why we commonly use 2 as the base in Eq.1). 
+For a given historical information, the less equal probability outputs, the less 'confused' the model is and hence the better modeling. 
+
+\subsection{Analysis of Different Hyperparameters}
+Notice that while we try different hyperparameters, we do it in a control experiment manner and keep other hyperparameters of their default 
+setting:\\
+\begin{table}[!ht]
+\caption{Default Setting}
+\centering
+\begin{tabular}{|c|c|c|c|c|}\hline
+   $embed\_size$ & $num\_layers$ & $batch\_size$ & $hidden\_size$ & $learning\_rate$ \\ \hline
+    299&1&128&512&0.001 \\ \hline
+\end{tabular}
+\end{table}
+\subsubsection{embed\_size}
+$embed\_size$ is a hyperparameter shared by both encoder and decoder. Generally, large $embed\_size$ will not hurt the model performance but
+results in higher training cost. We tried $embed\_size = \{50,100,200,300,400\}$, the performance and time cost for each $embed\_size$:\\
+\begin{figure}[H]
+    \centering 
+    \begin{minipage}[b]{0.3\textwidth} 
+    \centering 
+    \includegraphics[width=0.9\textwidth]{p_embedsize.png}
+    \caption{Perplexity} 
+    \label{Fig.1}
+    \end{minipage}
+    \begin{minipage}[b]{0.3\textwidth}
+    \centering 
+    \includegraphics[width=0.9\textwidth]{l_embedsize.png}
+    \caption{Loss}
+    \label{Fig.2}
+    \end{minipage}
+    \begin{minipage}[b]{0.3\textwidth}
+    \centering 
+    \includegraphics[width=0.9\textwidth]{time_embedsize.png}
+    \caption{Time cost}
+    \label{Fig.3}
+    \end{minipage}
+\end{figure}
+Hence we can see that $embed\_size = 400$ achieves the better accuracy and convengence speed.
+
+
+\subsubsection{learning rate}
+$learning\_rate$ is a hyperparameter in the Optimizer Adam. We tried $learning\_rate = \{0.1, 0.01, 0.001\}$, the performance and time cost for each $learning\_rate$ :
+\begin{figure}[H]
+    \centering 
+    \begin{minipage}[b]{0.3\textwidth} 
+    \centering 
+    \includegraphics[width=0.9\textwidth]{p_learningrate.png}
+    \caption{Perplexity} 
+    \label{Fig.1}
+    \end{minipage}
+    \begin{minipage}[b]{0.3\textwidth}
+    \centering 
+    \includegraphics[width=0.9\textwidth]{l_learningrate.png}
+    \caption{Loss}
+    \label{Fig.2}
+    \end{minipage}
+    \begin{minipage}[b]{0.3\textwidth}
+    \centering 
+    \includegraphics[width=0.9\textwidth]{time_learningrate.png}
+    \caption{Time cost}
+    \label{Fig.2}
+    \end{minipage}
+\end{figure}
+With no significant difference in time costing, a bolder choice of $learning\_rate = 0.01$ received the better Perplexity.
+
+\subsubsection{number of layers}
+$num\_layer$ is a hyperparameter in Decoder(LSTM). We tried $num\_layers = \{1,2,4\}$, the performance and time cost for each $num\_layer$:\\:
+\begin{figure}[H]
+    \centering 
+    \begin{minipage}[b]{0.3\textwidth} 
+    \centering 
+    \includegraphics[width=0.9\textwidth]{p_layer.png}
+    \caption{Perplexity} 
+    \label{Fig.1}
+    \end{minipage}
+    \begin{minipage}[b]{0.3\textwidth}
+    \centering 
+    \includegraphics[width=0.9\textwidth]{l_layer.png}
+    \caption{Loss}
+    \label{Fig.2}
+    \end{minipage}
+    \begin{minipage}[b]{0.3\textwidth}
+    \centering 
+    \includegraphics[width=0.9\textwidth]{time_layer.png}
+    \caption{Time cost}
+    \label{Fig.2}
+    \end{minipage}
+\end{figure}
+With no significant difference in time costing, decreasing LSTM complexity $num\_layers = 1$ received the better Perplexity and convengence speed.
+\subsubsection{hidden size}
+$hidden\_size$ is a hyperparameter in Decoder(LSTM). We tried $hidden\_size = \{128, 256, 512\}$, the performance and time cost for each $hidden\_size$:\\
+
+\begin{figure}[H]
+    \centering 
+    \begin{minipage}[b]{0.3\textwidth} 
+    \centering 
+    \includegraphics[width=0.9\textwidth]{p_hiddensize.png}
+    \caption{Perplexity} 
+    \label{Fig.1}
+    \end{minipage}
+    \begin{minipage}[b]{0.3\textwidth}
+    \centering 
+    \includegraphics[width=0.9\textwidth]{l_hiddensize.png}
+    \caption{Loss}
+    \label{Fig.2}
+    \end{minipage}
+    \begin{minipage}[b]{0.3\textwidth}
+    \centering 
+    \includegraphics[width=0.9\textwidth]{time_hiddensize.png}
+    \caption{Time cost}
+    \label{Fig.2}
+    \end{minipage}
+\end{figure}
+With slightly lower time costing, increasing LSTM complexity $hidden\_sizes = 512$ received the better Perplexity and convengence speed.
+
+\subsubsection{batch size}
+$batch\_size$ is a hyperparameter in training. Dividing data into batches can decrease training memory usage and by updating parameters after every batch, the algorithm converges faster. The performance and time cost for each $hidden\_size$:\\
+\begin{figure}[H]
+    \centering 
+    \begin{minipage}[b]{0.3\textwidth} 
+    \centering 
+    \includegraphics[width=0.9\textwidth]{p_batch.png}
+    \caption{Perplexity} 
+    \label{Fig.1}
+    \end{minipage}
+    \begin{minipage}[b]{0.3\textwidth}
+    \centering 
+    \includegraphics[width=0.9\textwidth]{l_batch.png}
+    \caption{Loss}
+    \label{Fig.2}
+    \end{minipage}
+    \begin{minipage}[b]{0.3\textwidth}
+    \centering 
+    \includegraphics[width=0.9\textwidth]{time_batch.png}
+    \caption{Time cost}
+    \label{Fig.2}
+    \end{minipage}
+\end{figure}
+Dividing the training set into batches of 128 or 256 or 512 increases the training speed while $batch\_size = 512$ converges faster than others.
+\subsubsection{GPU and CPU usage analysis}
+With the increase of $batch\_size$, the use rate of CPU and GPU will both increase. That's because we need to load more data into CPU and GPU in one batch.\\
+With the increase of $learning\_rate$, the use rate of CPU and GPU will stay almost the same. That's because the learning rate have no influnce on the memory.\\
+With the increase of $hidden\_size$, the use rate of CPU stays the same. but GPU will increase because the we
+need to load more parameters to GPU.\\
+With the increase of $embed\_size$ the use rate of CPU and GPU will both increase. That's because the smaller the embed sizethe smallerthe size ofinput data, which also means smaller usage of CPU and GPU.\\
+\end{document}
+
+\end{document}

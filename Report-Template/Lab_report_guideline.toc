@@ -1,0 +1,22 @@
+\babel@toc {english}{}
+\contentsline {section}{\numberline {1}TeraSort based on HiBench}{2}{section.1}%
+\contentsline {section}{\numberline {2}PageRank based on HiBench}{2}{section.2}%
+\contentsline {section}{\numberline {3}Classification using NaiveBayes based on HiBench}{2}{section.3}%
+\contentsline {section}{\numberline {4}Matrix Multiplication}{2}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Matrix Multiplication Algorithm}{2}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}Matrix Multiplication in MapReduce}{2}{subsection.4.2}%
+\contentsline {section}{\numberline {5}Image Classification}{9}{section.5}%
+\contentsline {subsection}{\numberline {5.1}The structure of network structure}{9}{subsection.5.1}%
+\contentsline {subsection}{\numberline {5.2}Result with default settings}{10}{subsection.5.2}%
+\contentsline {subsection}{\numberline {5.3}Result with different settings}{10}{subsection.5.3}%
+\contentsline {subsection}{\numberline {5.4}Recording of system run time information }{12}{subsection.5.4}%
+\contentsline {section}{\numberline {6}Image to Text}{13}{section.6}%
+\contentsline {subsection}{\numberline {6.1}Experiment Specification}{13}{subsection.6.1}%
+\contentsline {subsection}{\numberline {6.2}Interpretation of Perplexity}{13}{subsection.6.2}%
+\contentsline {subsection}{\numberline {6.3}Analysis of Different Hyperparameters}{13}{subsection.6.3}%
+\contentsline {subsubsection}{\numberline {6.3.1}embed\_size}{14}{subsubsection.6.3.1}%
+\contentsline {subsubsection}{\numberline {6.3.2}learning rate}{14}{subsubsection.6.3.2}%
+\contentsline {subsubsection}{\numberline {6.3.3}number of layers}{15}{subsubsection.6.3.3}%
+\contentsline {subsubsection}{\numberline {6.3.4}hidden size}{15}{subsubsection.6.3.4}%
+\contentsline {subsubsection}{\numberline {6.3.5}batch size}{16}{subsubsection.6.3.5}%
+\contentsline {subsubsection}{\numberline {6.3.6}GPU and CPU usage analysis}{16}{subsubsection.6.3.6}%
