@@ -58,6 +58,7 @@ def bi_diag(A):
             Hv_col = np.concatenate((tmp_mat_1, tmp_mat_2), axis = 0)
         P = np.matmul(P, Hv_col)
         A = np.matmul(Hv_col, A)
+
         # update the row
         tmp_row = np.array(A[r, r:]).reshape(1, A.shape[1] - r)
         Hv_row = householder_row(tmp_row)
@@ -123,7 +124,7 @@ def wilkinson_shift(M):
 
 # construct sigma, u and v matrix, A: m by n, assume that m > n
 def svd_dec(A):
-    
+
     if A.shape[0] > A.shape[1]:
         # construct V
         A_bidiag, L1, R1 = bi_diag(A)
@@ -145,27 +146,6 @@ def svd_dec(A):
         U = np.matmul(L1, U)
         V = np.matmul(V.T, R1.T)
     else:
-        # # construct U
-        # AT_bidiag, L1, R1 = bi_diag(A.T)
-        # U, AAT_val = qr_wilkinson(AT_bidiag)
-
-        # # construct sigma
-        # singular_val = [(i ** 0.5) for i in AAT_val]
-        # Sigma_eco = np.diag(singular_val)
-        # Sigma = np.concatenate((Sigma_eco, np.zeros((Sigma_eco.shape[0], A.shape[1] - A.shape[0]))), axis = 1)
-
-        # # construct V
-        # # A_bidiag, L2, R2 = bi_diag(AT_bidiag.T)
-        # # V_tmp, ATA_val = qr_wilkinson(A_bidiag)
-        # # print(V_tmp, "\n")
-
-        # tmp = np.matmul(AT_bidiag, U.T)
-        # V = np.matmul(tmp, np.linalg.inv(Sigma_eco))
-        # # print(V, "\n")
-        # # V = np.concatenate((V, V_tmp[ : , A.shape[1] : A.shape[0]]), axis = 1)
-        # V = np.matmul(L1.T, V)
-        # V = V.T
-        # U = np.matmul(R1, U)
         B = A.T
         V, Sigma, U = svd_dec(B)
         Sigma = Sigma.T
@@ -174,7 +154,75 @@ def svd_dec(A):
 
     return U, Sigma, V
 
-# phase II-B
-def qr_cholesky(B):
-    return 
+# phase II-B: an alternative iteration of the qr iteration with Wilkinson shift
+def qr_cholesky(B, iteration):
+    X = B
+    org_dim = X.shape[0]
+    sig_list = list()               # The return values are the singular values of matrix B
+    Q = np.identity(B.shape[0])     # the eigenvectors of $B^TB$
+    Q_tmp = np.identity(B.shape[0])
+    for i in range(iteration):
+        if X.shape == (1, 1):
+            sig_list.append(X[0, 0])
+            break
+        q, r = np.linalg.qr(X.T)
+        Q_tmp = np.matmul(q.T, Q_tmp)
+        tmp = np.matmul(r, r.T)
+        l = np.linalg.cholesky(tmp)
+        X = l.T
+        # conduct the deflation
+        if X[X.shape[0] - 2, X.shape[1] - 1] < 1e-12:
+            sig_list.append(X[X.shape[0] - 1, X.shape[1] - 1])
+            dim_diff = org_dim - Q_tmp.shape[0]
+            if dim_diff != 0:
+                mat_tmp1 = np.concatenate((Q_tmp, np.zeros((Q_tmp.shape[0], dim_diff))), axis = 1)
+                mat_tmp2 = np.concatenate((np.zeros((dim_diff, Q_tmp.shape[1])), np.identity(dim_diff)), axis = 1)
+                Q_tmp = np.concatenate((mat_tmp1, mat_tmp2), axis = 0)
+            
+            Q = np.matmul(Q_tmp, Q)
+            X = np.array(X[0 : X.shape[0] - 1, 0 : X.shape[1] - 1])
+            Q_tmp = np.identity(X.shape[0])
+    
+    sig_list.reverse()
+    return Q.T, sig_list
 
+# phase II-B: SVD decompostion using the alternative iteration
+def svd_dec_alt(A, iter):
+    bd_mat, l, r = bi_diag(A)
+    flag = 0
+    if bd_mat.shape[0] > bd_mat.shape[1]:
+        bd_mat = bd_mat[0 : bd_mat.shape[1], 0 : bd_mat.shape[1]]
+    else:
+        bd_mat = bd_mat[0 : bd_mat.shape[0], 0 : bd_mat.shape[0]]
+        flag = 1
+    
+    if flag == 0:
+        V, sig_val = qr_cholesky(bd_mat, iter)
+
+        Sig_eco = np.diag(sig_val)
+        if flag == 0:
+            Sigma = np.concatenate((Sig_eco, np.zeros((A.shape[0] - A.shape[1], Sig_eco.shape[1]))), axis = 0)
+
+        # construct U
+        AT_bdmat, l2, r2 = bi_diag(A.T)
+        if flag == 0:
+            AT_bdmat = AT_bdmat[0 : AT_bdmat.shape[0], 0 : AT_bdmat.shape[0]]
+        else:
+            AT_bdmat = AT_bdmat[0 : AT_bdmat.shape[1], 0 : AT_bdmat.shape[1]]
+
+        tmp = np.matmul(bd_mat, V)
+        
+        U = np.matmul(tmp, np.linalg.inv(Sig_eco))
+        dim_diff = A.shape[0] - A.shape[1]
+        tmp_mat_1 = np.concatenate((U, np.zeros((U.shape[0], dim_diff))), axis = 1)
+        tmp_mat_2 = np.concatenate((np.zeros((dim_diff, U.shape[1])), np.identity(dim_diff)), axis = 1)
+        U = np.concatenate((tmp_mat_1, tmp_mat_2), axis = 0)
+        U = np.matmul(l, U)
+        V = np.matmul(V.T, r.T)
+    else:
+        B = A.T
+        V, Sigma, U = svd_dec_alt(B, iter)
+        Sigma = Sigma.T
+        U = U.T
+        V = V.T
+    return U, Sigma, V
