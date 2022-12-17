@@ -96,7 +96,7 @@ def qr_wilkinson(B):
         shift = wilkinson_shift(np.array(X_old[X_old.shape[0] - 2 : X_old.shape[0], X_old.shape[1] - 2 : X_old.shape[1]]))
         val = np.linalg.norm(x = np.array(X_old[0 : X_old.shape[0] - 1, X_old.shape[1] - 1]))
 
-        if val <= 1e-12:
+        if val <= 1e-11:
             eigen_val.append(X_old[X_old.shape[0] - 1, X_old.shape[1] - 1])
             X_old = X_old[0 : X_old.shape[0] - 1, 0 : X_old.shape[1] - 1]
             if Q_tmp.shape[0] < Q.shape[0]:
@@ -125,7 +125,7 @@ def wilkinson_shift(M):
 # construct sigma, u and v matrix, A: m by n, assume that m > n
 def svd_dec(A):
 
-    if A.shape[0] > A.shape[1]:
+    if A.shape[0] >= A.shape[1]:
         # construct V
         A_bidiag, L1, R1 = bi_diag(A)
         V, ATA_val = qr_wilkinson(A_bidiag)
@@ -154,6 +154,32 @@ def svd_dec(A):
 
     return U, Sigma, V
 
+# This is for part 2 where full decomposition of the matrix U or V is not necessary
+def svd_dec_2(A):
+    if A.shape[0] >= A.shape[1]:
+        # construct V
+        A_bidiag, L1, R1 = bi_diag(A)
+        V, ATA_val = qr_wilkinson(A_bidiag)
+
+        # construct sigma
+        singular_val = np.array([(i ** 0.5) for i in ATA_val])
+        singular_val_idx = np.argsort(singular_val, kind = 'mergesort')
+        Sigma = np.diag(singular_val)
+
+        # construct U 
+        tmp = np.matmul(A_bidiag, V)     # solving U sigma = A V^T
+        U = np.matmul(tmp, np.linalg.inv(Sigma))
+        U = np.matmul(L1, U)
+        V = np.matmul(V.T, R1.T)
+    else:
+        B = A.T
+        V, Sigma, U = svd_dec_2(B)
+        Sigma = Sigma.T
+        U = U.T
+        V = V.T
+
+    return U, Sigma, V, singular_val_idx
+
 # phase II-B: an alternative iteration of the qr iteration with Wilkinson shift
 def qr_cholesky(B, iteration):
     X = B
@@ -171,7 +197,7 @@ def qr_cholesky(B, iteration):
         l = np.linalg.cholesky(tmp)
         X = l.T
         # conduct the deflation
-        if X[X.shape[0] - 2, X.shape[1] - 1] < 1e-12:
+        if X[X.shape[0] - 2, X.shape[1] - 1] < 1e-11:
             sig_list.append(X[X.shape[0] - 1, X.shape[1] - 1])
             dim_diff = org_dim - Q_tmp.shape[0]
             if dim_diff != 0:
@@ -190,7 +216,7 @@ def qr_cholesky(B, iteration):
 def svd_dec_alt(A, iter):
     bd_mat, l, r = bi_diag(A)
     flag = 0
-    if bd_mat.shape[0] > bd_mat.shape[1]:
+    if bd_mat.shape[0] >= bd_mat.shape[1]:
         bd_mat = bd_mat[0 : bd_mat.shape[1], 0 : bd_mat.shape[1]]
     else:
         bd_mat = bd_mat[0 : bd_mat.shape[0], 0 : bd_mat.shape[0]]
