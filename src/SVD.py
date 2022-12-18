@@ -197,7 +197,7 @@ def qr_cholesky(B, iteration):
         l = np.linalg.cholesky(tmp)
         X = l.T
         # conduct the deflation
-        if X[X.shape[0] - 2, X.shape[1] - 1] < 1e-11:
+        if abs(X[X.shape[0] - 2, X.shape[1] - 1]) < 1e-12:
             sig_list.append(X[X.shape[0] - 1, X.shape[1] - 1])
             dim_diff = org_dim - Q_tmp.shape[0]
             if dim_diff != 0:
