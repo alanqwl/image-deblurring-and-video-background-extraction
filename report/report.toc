@@ -1,0 +1,10 @@
+\babel@toc {english}{}
+\contentsline {section}{\numberline {1}Summary of the Project}{2}{section.1}%
+\contentsline {section}{\numberline {2}Singular Value Decomposition}{2}{section.2}%
+\contentsline {subsection}{\numberline {2.1}About Part 1}{2}{subsection.2.1}%
+\contentsline {subsection}{\numberline {2.2}Algorithmic Component I - Golub-Kahan bidiagonalization}{3}{subsection.2.2}%
+\contentsline {subsection}{\numberline {2.3}Algorithmic Component II - QR iteration with Wilkinson Shift and Deflation}{4}{subsection.2.3}%
+\contentsline {subsection}{\numberline {2.4}Algorithmic Component III - Alternative iterative procedure of QR iteration}{4}{subsection.2.4}%
+\contentsline {section}{\numberline {3}Deblurring Revisited}{5}{section.3}%
+\contentsline {section}{\numberline {4}Appendix}{5}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Appendix-1.1: procedure of QR iteration using Wilkinson Shift and Deflation}{5}{subsection.4.1}%
