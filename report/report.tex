@@ -64,7 +64,7 @@ This is a course project of numerical methods which consists of three parts.
 
 In the first part, we implement a two-phase procedure to perform singular value decomposition on a matrix $A$. In phase I, the matrix is first reduced to bidiagonal form via Golun-Kahan bidiagonalization. The resulting bidiagonal matrix $B$ will be the input of the second phase. In phase II, different iterative procedure is applied to obtain the eigenvectors and eigenvalues of matrix $B^TB$. The SVD of $B$ and $A$ can then be constructed using these results.
 
-In the second part, we apply SVD to image deblurring problem. The first step is to build two blurring kernels $A_l \in \mathbb{R}^{n \times n}$ and $A_r \in \mathbb{R}^{n \times n}$, where $n$ is the size of the image. Here, we adopt two different models in the application, which will be discussed in the third section. The blurry image can be consturcted using the two kernels. In the second step, the truncation technique is used to generate the pseudoinverse $A_l^+$ and $A_r^+$. The blurry images are deblurred using the trancated reconstruction of persudoinverses. We calculate peak-signal-to-noise-ratio (PSNR) to measure the quality of reconstruction and compare the runtimes of SVDs using the two iterative procedure mentioned in the first part. 
+In the second part, we apply SVD to image deblurring problem. The first step is to build two blurring kernels $A_l \in \mathbb{R}^{n \times n}$ and $A_r \in \mathbb{R}^{n \times n}$, where $n$ is the size of the image. Here, we adopt two different models in the application, which will be discussed in the third section. The blurry image can be consturcted using the two kernels. In the second step, the truncation technique is used to generate the pseudoinverse $A_l^+$ and $A_r^+$. The blurry images are deblurred using the trancated reconstruction of persudoinverses. We calculate peak-signal-to-noise-ratio (PSNR) to measure the quality of reconstruction and compare the runtimes of SVDs using the two iterative procedures mentioned in the first part. 
 
 \section{Singular Value Decomposition}
 \subsection{About Part 1}
@@ -113,7 +113,7 @@ The above scheme shows the procedure of householder transformation on columns. T
 \subsection{Algorithmic Component II - QR iteration with Wilkinson Shift and Deflation}
 The general procedure of the entire algorithm is described by the pesudocode posted in Appendix-1.1. The algorithm takes a square matrix $A \in \mathbb{R}^{n \times n}$ as input and output a list of eigenvalues $\lambda_i, \ i = 1,\cdots, n$ and a matrix $Q$ whose columns are the eigenvectors of the correponding eigenvalues in the list. The Wilkinson shift is computed by calculating the eigenvectors of the $2 \times 2$ matrix at the lower right corner of the matrix. The shift value will be selected to be the eigenvalues which is closer to the value in the entry $A(r, r), \ r = 1, \cdots, n$. As for deflation, the algorithm keeps track of the norm of the vector $A(1 : r - 1, r)$ and once it is smaller than the preset tolerence, deflation is conducted. In actual implementation, the tolerence is set as \lstinline{tol = 1e-11}. 
 
-\subsection{Algorithmic Component III - Alternative iterative procedure of QR iteration}
+\subsection{Algorithmic Component III - alternative iterative procedure of QR iteration}
 In this part, the iterative procedure described in (1.2) is implemented. This procedure actually coincides with the QR iteration with zero shift. The equivalence will be shown as following. 
 
 For the k-th iteration of the QR algorithm, we have that
@@ -140,9 +140,89 @@ Apply the above result to all the previous iterations, and set $X^0 = B$, we hav
     (X^{k+1})^TX^{k+1} = Q_k^T Q_{k-1}^T \cdots Q_1^T Q_0^T B^TB Q_0 Q_1 \cdots Q_{k-1} Q_k.
 \end{equation}
 It turns out that $(X^{k+1})^TX^{k+1}$ in equation (2.9) is equivalent to $X^k$ in equation (2.7). The difference is that the diagonal elements of the output $X^k$ in QR iteration converge to eigenvalues of $B^TB$, while in the alternative method, they converge to singular values directly. 
+
+\subsection{Main Results and Observation}
+An example of the output of the program can be seen in Appendix-1.2. The number of iterations of the alternative iteration is set as $1000$. From the results, both methods are able to give reliable results. 
 \section{Deblurring Revisited}
+\subsection{About Part II}
+For this part of the project, the SVD program implemented in part 1 is utilized to finish deblurring tasks. In this project, deblurring problems with the following form are considered.
+\begin{equation}\tag{3.1}
+    B = A_lXA_r
+\end{equation}
+In above equation, $X \in \mathbb{R}^{n \times n}$ represents the matrix of original image. The resulting blurry image will be $B \in \mathbb{R}^{n \times n}$. The matrix $A_l \in \mathbb{R}^{n \times n}$ and $A_r \in \mathbb{R}^{n \times n}$ are the left and right blurring kernels. To reconstruct the original image from a given blurry image $B$ and the two blurring kernels, we need to compute the pesudoinverses $A_l^+$ and $A_r^+$ and the recovered image can be obtained by $X = A_l^+ B A_r^+$.
 
+The first step of this part is to construct the blurring kernels. Two different models are used to blur the images. 
+\begin{enumerate}
+\item[-] Model I: We set $A_l = A_r = T^k$ where $k = 40$ and matrix $T$ has the following form.
+\begin{equation}\tag{3.2}
+    T = \left[\begin{matrix}
+        \frac{2 + \delta}{4 + \delta} & \frac{1}{4 + \delta} & & & \\
+        \frac{1}{4 + \delta} & \frac{2 + \delta}{4 + \delta} & \frac{1}{4 + \delta} & & \\
+        & \ddots  & \ddots & \ddots &  \\
+        & & \ddots & \ddots & \frac{1}{4 + \delta} \\
+        & & & \frac{1}{4 + \delta} & \frac{2 + \delta}{4 + \delta} \\
+    \end{matrix}\right] \in \mathbb{R}^{n \times n}, \ \delta = 0.1
+\end{equation}
+\item[-] Model II: The matrix $A_l$ and $A_r$ are both symmetric and have the following form. 
+\begin{equation}\tag{3.3}
+    A = \left[\begin{matrix}
+        a_n & a_{n - 1} & & a_2 & a_1 \\
+        a_{n - 1} & a_n & a_{n - 1} & & a_2 \\
+        & \ddots & \ddots & \ddots & \\
+        a_2 & & \ddots & \ddots & a_{n - 1} \\
+        a_1 & a_2 & & a_{n - 1} & a_n \\
+    \end{matrix}\right], \quad \Sigma_{i = 1}^{n} a_i = 1, \quad a_i \geq 0
+\end{equation}
+In this case, $A_l$ and $A_r$ are different symmetric matrices and the blurring kernel computes the weighted average of the pixels to generate the blurry image. 
+\end{enumerate}
 
+To compute the inverse (or pesudoinverse) of $A_l$ and $A_r$, the trancated SVD technique is applied. According to SVD of a matrix $A$ with rank $r$, we have that $A = U \Sigma V^T = \sum_{i = 1}^{r}\sigma_iu_iv_i^T$. Therefore, the matrix $A^+$ can be computed as $A^+ = V \Sigma^{-1} U^T = \sum_{i = 1}^r \frac{1}{\sigma_i}v_iu_i^T$. With additional parameters $l_{\text{tranc}}$ and $r_{\text{tranc}}$, the two matrices can be constructed as 
+\begin{equation} \tag{3.4}
+    A_{l, \text{trunc}}^+ = \sum_{i = 1}^{l_{\text{tranc}}}\frac{v_i^l(u_i^l)^T}{\sigma_i}, \ A_{r, \text{trunc}}^+ = \sum_{i = 1}^{r_{\text{tranc}}}\frac{v_i^r(u_i^r)^T}{\sigma_i}
+\end{equation}
+\subsection{Main Results and Observation}
+\subsubsection{Quality of Reconstruction in Model I}
+The quality of the reconstruction is related to the choice of the parameter $l_{\text{tranc}}$ and $r_{\text{tranc}}$. 
+
+\begin{figure}[H]
+    \centering 
+    \begin{minipage}[t]{0.3\linewidth} 
+    \centering 
+    \includegraphics[width=\textwidth]{quality_256_(1).png}
+    \caption{$256 \times 256$ image} 
+    \label{Fig.1}
+    \end{minipage}
+    \begin{minipage}[t]{0.3\linewidth}
+    \centering 
+    \includegraphics[width=\textwidth]{quality_512.png}
+    \caption{$512 \times 512$ image}
+    \label{Fig.2}
+    \end{minipage}
+    \begin{minipage}[t]{0.3\linewidth}
+    \centering 
+    \includegraphics[width=\textwidth]{quality_1024.png}
+    \caption{$1024 \times 1024$ image}
+    \label{Fig.3}
+    \end{minipage}
+\end{figure}
+The above three figures show the results obtained by applying 6 images to model I with various sizes. An observation of the relation between peak-signal-to-noise ratio (PSNR) and trancation parameters $l_{\text{trunc}}$ and $r_{\text{trunc}}$ is that the PSNR increases as the trancation parameters increase when $l_{\text{trunc}} = r_{\text{trunc}} < l^*$. When $l_{\text{trunc}} = r_{\text{trunc}} = l^*$, the reconstructed image will have the largest PSNR.  When the trancation parameters are larger than the optimal value $l^*$, the PSNR of the reconstruction sharply decreases. Another observation is that the value of the thereshold $l^*$ depends on the size of the image. From Figure 1, the trancation value which gives the best quality of reconstruction is around $102$ ($101$ for \lstinline{256_256_hand.png} and $103$ for \lstinline{256_256_buildings.png}). As for $512 \times 512$ images, the optimal value of $l_{\text{trunc}}$ and $r_{\text{trunc}}$ is around $203$. For $1024 \times 1024$ images, this value will change to around $406$.
+
+\subsubsection{Quality of Reconstruction in Model II}
+The experiment on model II presents a result that is different from model I. 
+\begin{figure}[H]
+    \centering
+    \begin{minipage}[t]{0.45\linewidth} 
+    \centering
+    \includegraphics[width=\textwidth]{quality_256_model2.png}
+    \caption{$256 \times 256$ image} 
+    \end{minipage}
+    \begin{minipage}[t]{0.45\linewidth}
+    \centering 
+    \includegraphics[width=\textwidth]{quality_512_model2.png}
+    \caption{$512 \times 512$ image}
+    \end{minipage}
+\end{figure}
+In this case, the PSNR increases as the value of the trancation parameter increases. In addition, the PSNR increases sharply when the last singular value and singular vectors are applied to construct pseudoinverse. The corresponding data and the effect of deblurring in this model are shown in Appendix-2.2.
 \section{Appendix}
 \subsection{Appendix-1.1: procedure of QR iteration using Wilkinson Shift and Deflation}
 \begin{equation}\notag
@@ -166,7 +246,172 @@ It turns out that $(X^{k+1})^TX^{k+1}$ in equation (2.9) is equivalent to $X^k$ 
     & \text{output: $\lambda_i, \ i = 1, \cdots, n$; $Q \in \mathbb{R}^{n \times n}$} \\
 \end{aligned}
 \end{equation}
+\subsection{Appendix-1.2: example of the output in part 1}
+In this example, the following matrix $A$ is applied to the program. 
+\begin{equation}\notag
+    A = \left[\begin{matrix}
+        17 & 21 & 31 & 45 \\
+        21 & 32 & 78 & 10 \\
+        9 & 15 & 2 & 62 \\
+        20 & 42 & 54 & 73 \\
+        38 & 25 & 2 & 19 \\
+        45 & 36 & 27 & 18 \\
+    \end{matrix}\right]
+\end{equation}
+To varify whether the QR iteration or the alternative iterative procedure give a precise result, the python inbuilt function \lstinline{numpy.linalg.svd} is used to compare with the output. 
 
+\begin{figure}[H]
+\centering
+\includegraphics{Example_result_inbuilt.png}
+\caption{the SVD of $A$ using python inbuilt function}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[height=60mm, width=100mm]{Example_result_testing.png}
+    \caption{the SVD of $A$ using QR iteration with wilkinson shift and deflation}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[height=60mm, width=100mm]{Example_result_alternative.png}
+    \caption{the SVD of $A$ using alternative iterative procedure}
+\end{figure}
+\subsection{Appendix-2.1: examples and data obtained when measuring the quality of reconstruction in model I}
+\begin{enumerate}
+\item[*] $256 \times 256$ images
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|c|c|c|}
+        \hline
+        \textbf{image} & \textbf{trancation number} & \textbf{PSNR} \\
+        \hline
+        \multirow{6}{*}{256_256_hand.png} & 90 & 22.419 \\
+        \cline{2-3}
+        & 95 & 23.049 \\
+        \cline{2-3}
+        & 100 & 23.525 \\
+        \cline{2-3}
+        & 101 & 23.701 \\
+        \cline{2-3}
+        & 102 & 23.683 \\
+        \cline{2-3}
+        & 105 & 20.068 \\ 
+        \hline
+        \multirow{6}{*}{256_256_buildings.png} & 90 & 19.972 \\
+        \cline{2-3}
+        & 95 & 20.475 \\
+        \cline{2-3}
+        & 101 & 21.016 \\
+        \cline{2-3}
+        & 102 & 21.038 \\
+        \cline{2-3}
+        & 103 & 21.056 \\
+        \cline{2-3}
+        & 105 & 19.193 \\ 
+        \hline
+    \end{tabular}
+\end{table}
+\item[*] $512 \times 512$ images
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|c|c|c|}
+        \hline
+        \textbf{image} & \textbf{trancation number} & \textbf{PSNR} \\
+        \hline
+        \multirow{7}{*}{512_512_books.png} & 190 & 25.065 \\
+        \cline{2-3}
+        & 195 & 25.278 \\
+        \cline{2-3}
+        & 200 & 25.475 \\
+        \cline{2-3}
+        & 204 & 25.629 \\
+        \cline{2-3}
+        & 205 & 25.640 \\
+        \cline{2-3}
+        & 206 & 25.639 \\
+        \cline{2-3} 
+        & 210 & 24.897 \\
+        \hline
+        \multirow{7}{*}{512_512_pens.png} & 190 & 29.613 \\
+        \cline{2-3}
+        & 195 & 29.921 \\
+        \cline{2-3}
+        & 200 & 30.148 \\
+        \cline{2-3}
+        & 204 & 30.237 \\
+        \cline{2-3}
+        & 205 & 30.311 \\
+        \cline{2-3}
+        & 206 & 30.204 \\
+        \cline{2-3} 
+        & 210 & 27.112 \\
+        \hline
+    \end{tabular}
+\end{table}
+\item[*] $1024 \times 1024$ images
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|c|c|c|}
+        \hline
+        \textbf{image} & \textbf{trancation number} & \textbf{PSNR} \\
+        \hline
+        \multirow{7}{*}{1024_1024_stones.png} & 380 & 34.443 \\
+        \cline{2-3}
+        & 390 & 34.698 \\
+        \cline{2-3}
+        & 400 & 34.932 \\
+        \cline{2-3}
+        & 409 & 34.978 \\
+        \cline{2-3}
+        & 410 & 34.964 \\
+        \cline{2-3}
+        & 420 & 30.124 \\
+        \cline{2-3} 
+        & 430 & 19.935 \\
+        \hline
+        \multirow{9}{*}{1024_1024_coffee.png} & 380 & 29.576 \\
+        \cline{2-3}
+        & 390 & 29.827 \\
+        \cline{2-3}
+        & 400 & 30.054 \\
+        \cline{2-3}
+        & 405 & 30.131 \\
+        \cline{2-3}
+        & 406 & 30.145 \\
+        \cline{2-3}
+        & 407 & 30.137 \\
+        \cline{2-3} 
+        & 410 & 30.093 \\
+        \cline{2-3}
+        & 420 & 25.506 \\
+        \cline{2-3}
+        & 430 & 15.266 \\
+        \hline
+    \end{tabular}
+\end{table}
+\item[*] examples of blurring and deblurring an image using model I
+\begin{figure}[H]
+    \centering
+    \subfigure[blurry image of 1024_1024_books.png]{
+        \includegraphics[width=2.75in]{blur_books_model1.png}
+    }
+    \subfigure[reconstruct image of 1024_1024_books.png]{
+        \includegraphics[width=2.75in]{reconstruct_books_model1.png}
+    }
+    \caption{blurry and reconstructed images of \lstinline{1024_1024_books.png} with $l_{\text{trunc}} = r_{\text{trunc}} = 406$}
+\end{figure}
+\begin{figure}[H]
+    \centering
+    \subfigure[blurry image of 512_512_fruits.png]{
+        \includegraphics[width=2.75in]{blur_fruits_model1.png}
+    }
+    \subfigure[reconstruct image of 512_512_fruits.png]{
+        \includegraphics[width=2.75in]{reconstruct_fruits_model1.png}
+    }
+    \caption{blurry and reconstructed images of \lstinline{512_512_fruits.png} with $l_{\text{trunc}} = r_{\text{trunc}} = 203$}
+\end{figure}
+\end{enumerate}
 \end{document}
 
 % \section{Classification using NaiveBayes based on HiBench}

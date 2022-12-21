@@ -4,7 +4,14 @@
 \contentsline {subsection}{\numberline {2.1}About Part 1}{2}{subsection.2.1}%
 \contentsline {subsection}{\numberline {2.2}Algorithmic Component I - Golub-Kahan bidiagonalization}{3}{subsection.2.2}%
 \contentsline {subsection}{\numberline {2.3}Algorithmic Component II - QR iteration with Wilkinson Shift and Deflation}{4}{subsection.2.3}%
-\contentsline {subsection}{\numberline {2.4}Algorithmic Component III - Alternative iterative procedure of QR iteration}{4}{subsection.2.4}%
+\contentsline {subsection}{\numberline {2.4}Algorithmic Component III - alternative iterative procedure of QR iteration}{4}{subsection.2.4}%
+\contentsline {subsection}{\numberline {2.5}Main Results and Observation}{5}{subsection.2.5}%
 \contentsline {section}{\numberline {3}Deblurring Revisited}{5}{section.3}%
-\contentsline {section}{\numberline {4}Appendix}{5}{section.4}%
-\contentsline {subsection}{\numberline {4.1}Appendix-1.1: procedure of QR iteration using Wilkinson Shift and Deflation}{5}{subsection.4.1}%
+\contentsline {subsection}{\numberline {3.1}About Part II}{5}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}Main Results and Observation}{6}{subsection.3.2}%
+\contentsline {subsubsection}{\numberline {3.2.1}Quality of Reconstruction in Model I}{6}{subsubsection.3.2.1}%
+\contentsline {subsubsection}{\numberline {3.2.2}Quality of Reconstruction in Model II}{7}{subsubsection.3.2.2}%
+\contentsline {section}{\numberline {4}Appendix}{8}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Appendix-1.1: procedure of QR iteration using Wilkinson Shift and Deflation}{8}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}Appendix-1.2: example of the output in part 1}{9}{subsection.4.2}%
+\contentsline {subsection}{\numberline {4.3}Appendix-2.1: examples and data obtained when measuring the quality of reconstruction in model I}{10}{subsection.4.3}%

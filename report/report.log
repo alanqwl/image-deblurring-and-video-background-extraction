@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.999992 (TeX Live 2020/W32TeX) (preloaded format=xelatex 2021.2.1)  18 DEC 2022 13:37
+This is XeTeX, Version 3.14159265-2.6-0.999992 (TeX Live 2020/W32TeX) (preloaded format=xelatex 2021.2.1)  21 DEC 2022 21:58
 entering extended mode
  \write18 enabled.
  file:line:error style messages enabled.
@@ -751,10 +751,35 @@ Package: listings 2020/03/24 1.8d (Carsten Heinz)
 Package: lipsum 2019/01/02 v2.2 150 paragraphs of Lorem Ipsum dummy text
  (d:/texlive/texlive/2020/texmf-dist/tex/latex/lipsum/lipsum.ltd.tex
 File: lipsum.ltd.tex 2019/01/02 v2.2 The Lorem ipsum dummy text
-))) (d:/texlive/texlive/2020/texmf-dist/tex/xelatex/xecjk/xeCJK-listings.sty
+)) (d:/texlive/texlive/2020/texmf-dist/tex/latex/multirow/multirow.sty
+Package: multirow 2019/05/31 v2.5 Span multiple rows of a table
+\multirow@colwidth=\skip94
+\multirow@cntb=\count339
+\multirow@dima=\skip95
+\bigstrutjot=\dimen317
+) (d:/texlive/texlive/2020/texmf-dist/tex/latex/subfigure/subfigure.sty
+Package: subfigure 2002/03/15 v2.1.5 subfigure package
+\subfigtopskip=\skip96
+\subfigcapskip=\skip97
+\subfigcaptopadj=\dimen318
+\subfigbottomskip=\skip98
+\subfigcapmargin=\dimen319
+\subfiglabelskip=\skip99
+\c@subfigure=\count340
+\c@lofdepth=\count341
+\c@subtable=\count342
+\c@lotdepth=\count343
+
+****************************************
+* Local config file subfigure.cfg used *
+****************************************
+(d:/texlive/texlive/2020/texmf-dist/tex/latex/subfigure/subfigure.cfg)
+\subfig@top=\skip100
+\subfig@bottom=\skip101
+)) (d:/texlive/texlive/2020/texmf-dist/tex/xelatex/xecjk/xeCJK-listings.sty
 Package: xeCJK-listings 2020/02/18 v3.8.2 xeCJK patch file for listings
-\l__xeCJK_listings_max_char_int=\count339
-\l__xeCJK_listings_flag_int=\count340
+\l__xeCJK_listings_max_char_int=\count344
+\l__xeCJK_listings_flag_int=\count345
 ) (./report.aux)
 \openout1 = `report.aux'.
 
@@ -824,7 +849,7 @@ Package: refcount 2019/12/15 v3.6 Data extraction from label references (HO)
 ) (d:/texlive/texlive/2020/texmf-dist/tex/generic/gettitlestring/gettitlestring.sty
 Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
 )
-\c@section@level=\count341
+\c@section@level=\count346
 )
 LaTeX Info: Redefining \ref on input line 6.
 LaTeX Info: Redefining \pageref on input line 6.
@@ -835,8 +860,9 @@ LaTeX Info: Redefining \nameref on input line 6.
 
 Package caption Info: Begin \AtBeginDocument code.
 Package caption Info: listings package is loaded.
+Package caption Info: subfigure package is loaded.
 Package caption Info: End \AtBeginDocument code.
-\c@lstlisting=\count342
+\c@lstlisting=\count347
 File: CUHK.png Graphic file (type bmp)
 <CUHK.png>
 
@@ -871,28 +897,65 @@ Overfull \hbox (18.47238pt too wide) in paragraph at lines 33--48
 \tf@toc=\write4
 \openout4 = `report.toc'.
 
- [1] [2] [3] [4]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 170.
- [5]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 170.
+ [1] [2] [3] [4] [5]
+File: quality_256_(1).png Graphic file (type bmp)
+<quality_256_(1).png>
+File: quality_512.png Graphic file (type bmp)
+<quality_512.png>
+File: quality_1024.png Graphic file (type bmp)
+<quality_1024.png>
+ [6]
+File: quality_256_model2.png Graphic file (type bmp)
+<quality_256_model2.png>
+File: quality_512_model2.png Graphic file (type bmp)
+<quality_512_model2.png>
+ [7] [8]
+File: Example_result_inbuilt.png Graphic file (type bmp)
+<Example_result_inbuilt.png>
+File: Example_result_testing.png Graphic file (type bmp)
+<Example_result_testing.png>
+File: Example_result_alternative.png Graphic file (type bmp)
+<Example_result_alternative.png>
+ [9] [10]
+File: blur_books_model1.png Graphic file (type bmp)
+<blur_books_model1.png>
+File: reconstruct_books_model1.png Graphic file (type bmp)
+<reconstruct_books_model1.png>
+ [11]
+File: blur_fruits_model1.png Graphic file (type bmp)
+<blur_fruits_model1.png>
+File: reconstruct_fruits_model1.png Graphic file (type bmp)
+<reconstruct_fruits_model1.png>
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 415.
+ [12]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 415.
  (./report.aux)
-Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 170.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 170.
-Package rerunfilecheck Info: File `report.out' has not changed.
-(rerunfilecheck)             Checksum: 2F4E0E827090FFAC455298A75A333235;2425.
+Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 415.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 415.
 
+
+Package rerunfilecheck Warning: File `report.out' has changed.
+(rerunfilecheck)                Rerun to get outlines right
+(rerunfilecheck)                or use package `bookmark'.
+
+Package rerunfilecheck Info: Checksums for `report.out':
+(rerunfilecheck)             Before: 2F4E0E827090FFAC455298A75A333235;2425
+(rerunfilecheck)             After:  CF3BD5860FA8E9D17BBB20B361A68CF7;4380.
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 170.
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 415.
  ) 
 Here is how much of TeX's memory you used:
- 22356 strings out of 479418
- 430542 string characters out of 5884586
+ 22656 strings out of 479418
+ 435775 string characters out of 5884586
  931875 words of memory out of 5000000
- 39487 multiletter control sequences out of 15000+600000
- 546012 words of font info for 101 fonts, out of 8000000 for 9000
+ 39761 multiletter control sequences out of 15000+600000
+ 548506 words of font info for 112 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
- 61i,16n,72p,944b,957s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 61i,16n,72p,1091b,1468s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on report.pdf (7 pages).
+Output written on report.pdf (14 pages).
