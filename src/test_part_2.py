@@ -85,5 +85,49 @@ def tester_2():
 
     plt.show()
 
+def tester_3():
+    im = Image.open('test_images/640_640_lion.png')
+    image = np.array(im)
+    image = image.astype(np.float64) / 255
+
+    # sz = image.shape[0]
+    A = blur.construct_kernel_2(image, 40)
+    print("finish kernel construction...")
+    A_inv = blur.trunc_SVD(A, 256)
+    print("finish kernel truncated SVD-1...")
+    A_inv_2 = blur.trunc_SVD2(A, 256, 18000)
+    print("finish kernel truncated SVD-2...")
+
+    blur_image = blur.blur_image_2(image, A)
+    print("finish 1-1")
+    deblur_image_1 = blur.deblur_image(blur_image, A_inv, A_inv)
+    print("finish 2-1")
+    deblur_image_2 = blur.deblur_image(blur_image, A_inv_2, A_inv_2)
+    print("finish 2-2")
+
+    sz = image.shape[0]
+    psnr = blur.PSNR(deblur_image_1, image, sz)
+    print("PSNR-1: ", psnr)
+    psnr_2 = blur.PSNR(deblur_image_2, image, sz)
+    print("PSNR-2: ", psnr_2)
+
+    plt.figure(1)
+    plt.gray()
+    plt.axis("off")
+    plt.imshow(blur_image)
+
+    plt.figure(2)
+    plt.gray()
+    plt.axis("off")
+    plt.imshow(deblur_image_1)
+
+    plt.figure(3)
+    plt.gray()
+    plt.axis('off')
+    plt.imshow(deblur_image_2)
+
+    plt.show()
+    return 
+
 if __name__ == '__main__':
     tester_1()

@@ -94,6 +94,30 @@ def trunc_SVD(A, _trunc):
         A_inv = A_inv + tmp
     return A_inv
 
+# for alternative iteration
+def trunc_SVD2(A, _trunc, iter):
+    try:
+        t1 = time()
+        U, sigma, V, index_list = SVD.svd_dec_alt_2(A.toarray(), iter)
+        t2 = time()
+    except:
+        t1 = time()
+        U, sigma, V, index_list = SVD.svd_dec_alt_2(A, iter)
+        t2 = time()
+    
+    print("run time: ", t2 - t1)
+    VT = V.T
+    A_inv = np.zeros((A.shape[0], A.shape[1]))
+    # generate truncated reconstruction
+    for i in range(_trunc):
+        pos = index_list[sigma.shape[1] - 1 - i]
+        ui = U[:, pos].reshape(1, A.shape[1])
+        vi = VT[:, pos].reshape(A.shape[0], 1)
+        sigma_i = sigma[pos, pos]
+        tmp = (np.matmul(vi, ui)) / sigma_i
+        A_inv = A_inv + tmp
+    return A_inv
+
 def deblur_image(image, Al_inv, Ar_inv):
     sz = image.shape[0]
     try:

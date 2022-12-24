@@ -131,7 +131,7 @@ def svd_dec(A):
         V, ATA_val = qr_wilkinson(A_bidiag)
         # V = np.matmul(R1, V)
         # V = V.T
-
+        
         # construct sigma
         singular_val = [(i ** 0.5) for i in ATA_val]
         Sigma_eco = np.diag(singular_val)
@@ -252,3 +252,42 @@ def svd_dec_alt(A, iter):
         U = U.T
         V = V.T
     return U, Sigma, V
+
+def svd_dec_alt_2(A, iter):
+    bd_mat, l, r = bi_diag(A)
+    flag = 0
+    if bd_mat.shape[0] >= bd_mat.shape[1]:
+        bd_mat = bd_mat[0 : bd_mat.shape[1], 0 : bd_mat.shape[1]]
+    else:
+        bd_mat = bd_mat[0 : bd_mat.shape[0], 0 : bd_mat.shape[0]]
+        flag = 1
+    
+    if flag == 0:
+        V, sig_val = qr_cholesky(bd_mat, iter)
+
+        singular_val_idx = np.argsort(sig_val, kind = 'mergesort')
+        Sigma = np.diag(sig_val)
+
+        # construct U
+        AT_bdmat, l2, r2 = bi_diag(A.T)
+        if flag == 0:
+            AT_bdmat = AT_bdmat[0 : AT_bdmat.shape[0], 0 : AT_bdmat.shape[0]]
+        else:
+            AT_bdmat = AT_bdmat[0 : AT_bdmat.shape[1], 0 : AT_bdmat.shape[1]]
+
+        tmp = np.matmul(bd_mat, V)
+        
+        U = np.matmul(tmp, np.linalg.inv(Sigma))
+        dim_diff = A.shape[0] - A.shape[1]
+        tmp_mat_1 = np.concatenate((U, np.zeros((U.shape[0], dim_diff))), axis = 1)
+        tmp_mat_2 = np.concatenate((np.zeros((dim_diff, U.shape[1])), np.identity(dim_diff)), axis = 1)
+        U = np.concatenate((tmp_mat_1, tmp_mat_2), axis = 0)
+        U = np.matmul(l, U)
+        V = np.matmul(V.T, r.T)
+    else:
+        B = A.T
+        V, Sigma, U, singular_val_idx = svd_dec_alt_2(B, iter)
+        Sigma = Sigma.T
+        U = U.T
+        V = V.T
+    return U, Sigma, V, singular_val_idx    
