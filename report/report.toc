@@ -11,7 +11,10 @@
 \contentsline {subsection}{\numberline {3.2}Main Results and Observation}{6}{subsection.3.2}%
 \contentsline {subsubsection}{\numberline {3.2.1}Quality of Reconstruction in Model I}{6}{subsubsection.3.2.1}%
 \contentsline {subsubsection}{\numberline {3.2.2}Quality of Reconstruction in Model II}{7}{subsubsection.3.2.2}%
+\contentsline {subsubsection}{\numberline {3.2.3}Comparing Performance of QR Iteration and Alternative Iteration}{7}{subsubsection.3.2.3}%
 \contentsline {section}{\numberline {4}Appendix}{8}{section.4}%
 \contentsline {subsection}{\numberline {4.1}Appendix-1.1: procedure of QR iteration using Wilkinson Shift and Deflation}{8}{subsection.4.1}%
 \contentsline {subsection}{\numberline {4.2}Appendix-1.2: example of the output in part 1}{9}{subsection.4.2}%
 \contentsline {subsection}{\numberline {4.3}Appendix-2.1: examples and data obtained when measuring the quality of reconstruction in model I}{10}{subsection.4.3}%
+\contentsline {subsection}{\numberline {4.4}Appendix-2.2: examples and data obtained when measuring the quality of reconstruction in model II}{12}{subsection.4.4}%
+\contentsline {subsection}{\numberline {4.5}Appendix-2.3: comparing performance of QR iteration with Wilkinson Shift and alternative iteration}{14}{subsection.4.5}%

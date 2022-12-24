@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.999992 (TeX Live 2020/W32TeX) (preloaded format=xelatex 2021.2.1)  21 DEC 2022 21:58
+This is XeTeX, Version 3.14159265-2.6-0.999992 (TeX Live 2020/W32TeX) (preloaded format=xelatex 2021.2.1)  24 DEC 2022 15:33
 entering extended mode
  \write18 enabled.
  file:line:error style messages enabled.
@@ -926,36 +926,33 @@ File: blur_fruits_model1.png Graphic file (type bmp)
 <blur_fruits_model1.png>
 File: reconstruct_fruits_model1.png Graphic file (type bmp)
 <reconstruct_fruits_model1.png>
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 415.
  [12]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 415.
+File: blur_coffee_model2.png Graphic file (type bmp)
+<blur_coffee_model2.png>
+File: reconstruct_coffee_model2.png Graphic file (type bmp)
+<reconstruct_coffee_model2.png>
+ [13]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 531.
+ [14]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 531.
  (./report.aux)
-Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 415.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 415.
+Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 531.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 531.
+Package rerunfilecheck Info: File `report.out' has not changed.
+(rerunfilecheck)             Checksum: 10D1487D4B10F50BC6B9C4E2F90C6AD8;5947.
 
-
-Package rerunfilecheck Warning: File `report.out' has changed.
-(rerunfilecheck)                Rerun to get outlines right
-(rerunfilecheck)                or use package `bookmark'.
-
-Package rerunfilecheck Info: Checksums for `report.out':
-(rerunfilecheck)             Before: 2F4E0E827090FFAC455298A75A333235;2425
-(rerunfilecheck)             After:  CF3BD5860FA8E9D17BBB20B361A68CF7;4380.
 
 LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
-
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
-
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 415.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 531.
  ) 
 Here is how much of TeX's memory you used:
- 22656 strings out of 479418
- 435775 string characters out of 5884586
+ 22670 strings out of 479418
+ 436132 string characters out of 5884586
  931875 words of memory out of 5000000
- 39761 multiletter control sequences out of 15000+600000
+ 39773 multiletter control sequences out of 15000+600000
  548506 words of font info for 112 fonts, out of 8000000 for 9000
  1348 hyphenation exceptions out of 8191
  61i,16n,72p,1091b,1468s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on report.pdf (14 pages).
+Output written on report.pdf (16 pages).

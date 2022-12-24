@@ -223,6 +223,9 @@ The experiment on model II presents a result that is different from model I.
     \end{minipage}
 \end{figure}
 In this case, the PSNR increases as the value of the trancation parameter increases. In addition, the PSNR increases sharply when the last singular value and singular vectors are applied to construct pseudoinverse. The corresponding data and the effect of deblurring in this model are shown in Appendix-2.2.
+
+\subsubsection{Comparing Performance of QR Iteration and Alternative Iteration}
+To compare the performance between the QR iteration and the alternative iteration, we test on 3 different cases. The results are shown in Appendix-2.3. Generally speaking, the two methods reconstruct the figure with almost the same level of quality (similar PSNR). However, the alternative iteration requires a longer run time in general. 
 \section{Appendix}
 \subsection{Appendix-1.1: procedure of QR iteration using Wilkinson Shift and Deflation}
 \begin{equation}\notag
@@ -411,6 +414,119 @@ To varify whether the QR iteration or the alternative iterative procedure give a
     }
     \caption{blurry and reconstructed images of \lstinline{512_512_fruits.png} with $l_{\text{trunc}} = r_{\text{trunc}} = 203$}
 \end{figure}
+\end{enumerate}
+\subsection{Appendix-2.2: examples and data obtained when measuring the quality of reconstruction in model II}
+\begin{enumerate}
+\item[*] 256 * 256 images
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|c|c|c|}
+        \hline
+        \textbf{image} & \textbf{trancation number} & \textbf{PSNR} \\
+        \hline
+        \multirow{6}{*}{256_256_casino.png} & 235 & 15.281 \\
+        \cline{2-3}
+        & 240 & 15.977 \\
+        \cline{2-3}
+        & 245 & 19.716 \\
+        \cline{2-3}
+        & 250 & 25.967 \\
+        \cline{2-3}
+        & 255 & 34.852 \\
+        \cline{2-3}
+        & 256 & 92.925 \\
+        \hline
+        \multirow{6}{*}{256_256_buildings.png} & 235 & 18.836 \\
+        \cline{2-3}
+        & 240 & 22.203 \\
+        \cline{2-3}
+        & 245 & 22.787 \\
+        \cline{2-3}
+        & 250 & 28.612 \\
+        \cline{2-3}
+        & 255 & 31.804 \\
+        \cline{2-3}
+        & 256 & 144.035 \\
+        \hline
+    \end{tabular}
+\end{table}
+\item[*] 512 * 512 images
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|c|c|c|}
+        \hline
+        \textbf{image} & \textbf{trancation number} & \textbf{PSNR} \\
+        \hline
+        \multirow{6}{*}{512_512_car_01.png} & 490 & 22.692 \\
+        \cline{2-3}
+        & 495 & 23.454 \\
+        \cline{2-3}
+        & 500 & 25.096 \\
+        \cline{2-3}
+        & 505 & 31.556 \\
+        \cline{2-3}
+        & 510 & 33.206 \\
+        \cline{2-3}
+        & 512 & 95.601 \\
+        \hline
+        \multirow{6}{*}{512_512_fruits.png} & 490 & 15.483 \\
+        \cline{2-3}
+        & 495 & 21.727 \\
+        \cline{2-3}
+        & 500 & 21.816 \\
+        \cline{2-3}
+        & 505 & 23.228 \\
+        \cline{2-3}
+        & 510 & 28.150 \\
+        \cline{2-3}
+        & 512 & 117.785 \\
+        \hline
+    \end{tabular}
+\end{table}
+\item[*] examples of blurring and deblurring an image using model II 
+\begin{figure}[H]
+    \centering
+    \subfigure[blurry image of  \lstinline{1024_1024_coffee.png}]{
+        \includegraphics[width=2.75in]{blur_coffee_model2.png}
+    }
+    \subfigure[reconstruct image of 1024_1024_coffee.png]{
+        \includegraphics[width=2.75in]{reconstruct_coffee_model2.png}
+    }
+    \caption{blurry and reconstructed images of \lstinline{1024_1024_coffee.png} with $l_{\text{trunc}} = r_{\text{trunc}} = 1020$ (PSNR = 27.584)}
+\end{figure}
+\end{enumerate}
+\subsection{Appendix-2.3: comparing performance of QR iteration with Wilkinson Shift and alternative iteration}
+\begin{enumerate}
+\item[*] QR iteration 
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|c|c|c|}
+        \hline
+        \textbf{image} & \textbf{run time} & \textbf{PSNR} \\
+        \hline
+        256_256_hand.png & 1.209 & 23.525 \\
+        \hline
+        512_512_pens.png & 13.696 & 30.311 \\
+        \hline
+        640_640_lion.png & 27.530 & 20.159 \\
+        \hline
+    \end{tabular}
+\end{table}
+\item[*] alternative iteration
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|c|c|c|}
+        \hline
+        \textbf{image} & \textbf{run time} & \textbf{PSNR} \\
+        \hline
+        256_256_hand.png & 1.684 & 23.518 \\
+        \hline
+        512_512_pens.png & 20.011 & 30.313 \\
+        \hline
+        640_640_lion.png & 40.860 & 20.172 \\
+        \hline
+    \end{tabular}
+\end{table}
 \end{enumerate}
 \end{document}
 
